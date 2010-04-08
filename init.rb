@@ -1,13 +1,17 @@
 require 'redmine'
 require 'dispatcher'
 
-Dispatcher.to_prepare :redmine_kanban do
+Dispatcher.to_prepare :redmine_regression_test do
   require_dependency 'project'
   # Guards against including the module multiple time (like in tests)
   require 'regression_test_category_project_patch'
+  require 'regression_test_iteration_patch'
   # and registering multiple callbacks
   unless Project.included_modules.include? RegressionTestCategoryProjectPatch
     Project.send(:include, RegressionTestCategoryProjectPatch)
+  end
+  unless Project.included_modules.include? RegressionTestIterationPatch
+    Project.send(:include, RegressionTestIterationPatch)
   end
 end
 

@@ -1,0 +1,30 @@
+<% html_title l(:regression_test) %>
+<% if @categories.empty?-%>
+  Not Registered.
+<% else -%>
+  <table>
+    <tr>
+      <th>Regression Test Category</th>
+      <th>Test Case</th>
+    </tr>
+    <% @categories.each do |category| -%>
+      <tr>
+        <td>
+          <%= link_to category.name,:action=>"show_category",:id=>category,:project=>@project.identifier %>
+        </td>
+        <td>
+          <%= link_to category.regression_test_cases.size,:action=>"show_category",:id=>category,:project=>@project.identifier %>
+        </td>
+        <td>
+          <%= link_to(l(:button_edit), {:action => 'edit_category', :id => category}, :class => 'icon icon-edit') %>
+        </td>
+        <td>
+          <%= link_to l(:button_delete), {:action => 'destroy_category', :id => category}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+        </td>
+      </tr>
+    <% end -%>
+  </table>
+<% end -%>
+<hr />
+<%= link_to "New Category",:action=>"new_category"%> | 
+<%= link_to "Sort",:action=>"sort_category"%>

@@ -1,0 +1,14 @@
+<% html_title l(:regression_test) %>
+Please Drag and Drop if you need to sort.
+
+<ol id="sortable_list">
+  <% @categories.each_with_index do |category,n| -%>
+    <li id="category_<%=category.id%>">
+    <%=h category.name %>
+    <%=h category.comment %>
+    </li>
+  <% end -%>
+</ol>
+<%= sortable_element "sortable_list", :url => {:action => 'update_sort_category'} %>
+<hr />
+<%= link_to "Back",:action=>"index"%>

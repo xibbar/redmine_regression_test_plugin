@@ -1,0 +1,5 @@
+# English strings go here for Rails i18n
+en:
+  regression_test: "Regression Test"
+ja:
+  regression_test: "レグレッションテスト"

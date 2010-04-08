@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  regression_test_category_id: 1
+  order: 1
+  step_description: MyText
+  expected_result: MyText
+two:
+  id: 2
+  regression_test_category_id: 1
+  order: 1
+  step_description: MyText
+  expected_result: MyText

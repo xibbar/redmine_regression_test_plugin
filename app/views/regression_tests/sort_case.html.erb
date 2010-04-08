@@ -1,0 +1,17 @@
+<% html_title l(:regression_test) %>
+<h1><%=h @category.name %>
+</h1>
+Please Drag and Drop if you need to sort.
+
+<ol id="sortable_list">
+  <% @category.regression_test_cases.each_with_index do |test_case,n| -%>
+    <li id="test_case_<%=test_case.id%>">
+    <%=h test_case.step_description %>
+    <%=h test_case.expected_result %>
+    <%=h test_case.user.name %>
+    </li>
+  <% end -%>
+</ol>
+<%= sortable_element "sortable_list", :url => {:action => 'update_sort_case',:id=>@category} %>
+<hr />
+<%= link_to "Back",:action=>"show_category",:id=>@category%>

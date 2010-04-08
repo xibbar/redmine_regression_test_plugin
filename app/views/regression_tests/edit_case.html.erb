@@ -1,0 +1,6 @@
+<%= error_messages_for :test_case%>
+<% form_for @test_case,:url=>{:action=>"update_case",:id=>@test_case}  do |f|-%>
+  <%= hidden_field_tag "category_id",@category.id%>
+  <%= render :partial=>"case_form",:locals=>{:f=>f}%> 
+  <%= submit_tag "Update" %>
+<% end -%>

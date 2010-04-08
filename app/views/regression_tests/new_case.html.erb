@@ -1,0 +1,5 @@
+<%= error_messages_for :test_case%>
+<% form_for @test_case,:url=>{:action=>"create_case",:category_id=>@category}  do |f|-%>
+  <%= render :partial=>"case_form",:locals=>{:f=>f}%> 
+  <%= submit_tag "Create" %>
+<% end -%>

@@ -1,0 +1,41 @@
+<% html_title l(:regression_test) %>
+<h1><%=h @category.name %>
+</h1>
+<%=(h @category.comment).gsub(/\r\n|\r|\n/){"<br />"} %>
+<hr />
+<table>
+  <tr>
+    <th>No. </th>
+    <th>Step Description</th>
+    <th>Expected Result</th>
+    <th>Updated by</th>
+  </tr>
+  <% @category.regression_test_cases.each do |test_case| -%>
+    <tr>
+      <td>
+        <%=h test_case.position %>
+      </td>
+      <td>
+        <%=h test_case.step_description %>
+      </td>
+      <td>
+        <%=h test_case.expected_result %>
+      </td>
+      <td>
+        <%=h test_case.user.name %>
+      </td>
+      <td>
+        <%= link_to(l(:button_edit), {:action => 'edit_case', :id => test_case, :category_id=>@category}, :class => 'icon icon-edit') %>
+      </td>
+      <td>
+        <%= link_to l(:button_delete), {:action => 'destroy_case', :id => test_case, :category_id=>@category}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+      </td>
+
+
+    </tr>
+  <% end -%>
+</table>
+<hr />
+<%= link_to "New Test Case",:action=>"new_case",:category_id=>@category%> | 
+<%= link_to "Sort",:action=>"sort_case",:id=>@category%> | 
+<%= link_to "Back",:action=>"index"%>

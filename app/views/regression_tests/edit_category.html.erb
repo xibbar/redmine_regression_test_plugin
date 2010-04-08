@@ -1,0 +1,5 @@
+<%= error_messages_for :category%>
+<% form_for @category,:url=>{:action=>"update_category",:id=>@category}  do |f|-%>
+  <%= render :partial=>"category_form",:locals=>{:f=>f}%> 
+  <%= submit_tag "Update" %>
+<% end -%>

@@ -35,8 +35,8 @@ class RegressionTestCategoriesController < ApplicationController
   def destroy_category
     @category=RegressionTestCategory.find(params[:id])
     if @category.destroy
-      @category.regression_test_cases.each_with_index do |test_case,n|
-        test_case.update_attribute(:position,n+1)
+      @project.regression_test_categories.each_with_index do |category,n|
+        category.update_attribute(:position,n+1)
       end
       flash[:notice]="Destroy Successful."
       redirect_to :action=>"index"

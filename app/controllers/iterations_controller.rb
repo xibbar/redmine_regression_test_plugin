@@ -1,2 +1,0 @@
-class IterationsController < ApplicationController
-end

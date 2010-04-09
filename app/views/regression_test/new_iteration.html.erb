@@ -1,0 +1,5 @@
+<%= error_messages_for :iteration%>
+<% form_for @iteration,:url=>{:action=>"create_iteration"}  do |f|-%>
+  <%= render :partial=>"iteration_form",:locals=>{:f=>f}%> 
+  <%= submit_tag "Create" %>
+<% end -%>

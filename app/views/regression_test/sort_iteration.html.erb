@@ -1,0 +1,13 @@
+<% html_title l(:regression_test) %>
+Please Drag and Drop if you need to sort.
+
+<ol id="sortable_list">
+  <% @iterations.each_with_index do |iteration,n| -%>
+    <li id="iteration_<%=iteration.id%>">
+    <%=h iteration.name %>
+    </li>
+  <% end -%>
+</ol>
+<%= sortable_element "sortable_list", :url => {:action => 'update_sort_iteration'} %>
+<hr />
+<%= link_to "Back",:action=>"iteration_list"%>

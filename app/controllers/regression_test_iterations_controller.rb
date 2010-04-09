@@ -1,2 +1,0 @@
-class RegressionTestIterationsController < ApplicationController
-end

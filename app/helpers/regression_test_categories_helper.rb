@@ -1,2 +1,0 @@
-module RegressionTestCategoriesHelper
-end

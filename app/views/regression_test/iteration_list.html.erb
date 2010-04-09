@@ -1,0 +1,36 @@
+<% html_title l(:regression_test) %>
+<h1>Iteration List</h1>
+<% if @iterations.empty?-%>
+  Not Registered.
+<% else -%>
+  <table>
+    <tr>
+      <th>Iteration Name</th>
+      <th>Created</th>
+      <th>Updated</th>
+    </tr>
+    <% @iterations.each do |iteration| -%>
+      <tr>
+        <td>
+          <%= link_to iteration.name,:action=>"show_iteration",:id=>iteration %>
+        </td>
+        <td>
+          <%= format_date(iteration.created_at)%>
+        </td>
+        <td>
+          <%= format_date(iteration.updated_at)%>
+        </td>
+        <td>
+          <%= link_to(l(:button_edit), {:action => 'edit_iteration', :id => iteration}, :class => 'icon icon-edit') %>
+        </td>
+        <td>
+          <%= link_to l(:button_delete), {:action => 'destroy_iteration', :id => iteration}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+        </td>
+      </tr>
+    <% end -%>
+  </table>
+<% end -%>
+<hr />
+<%= link_to "New Iteration",:action=>"new_iteration"%> | 
+<%= link_to "Categories",:action=>"category_list"%> | 
+<%= link_to "Sort",:action=>"sort_iteration"%>

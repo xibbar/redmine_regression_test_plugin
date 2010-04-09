@@ -1,4 +1,4 @@
-class RegressionTestsController < ApplicationController
+class RegressionTestCategoriesController < ApplicationController
   unloadable
   before_filter :find_project,:authorize
   before_filter :find_category,:only=>[:new_case,:create_case,:edit_case,:update_case,:destroy_case]

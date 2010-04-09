@@ -21,10 +21,10 @@ Redmine::Plugin.register :redmine_regression_test do
   author 'Takeyuki FUJIOKA'
   description 'This is a plugin for Redmine'
   version '0.0.1'
-  menu :project_menu, :regression_tests, {:controller=>'regression_tests',:action=>'index'}, :caption=>:regression_test,:after=>:last,:param=>"project" do
+  menu :project_menu, :regression_tests, {:controller=>'regression_test_categories',:action=>'index'}, :caption=>:regression_test,:after=>:last,:param=>"project" do
   end
   project_module :regression_test do
-    permission :regression_test, {:regression_tests=>[:index,
+    permission :regression_test, {:regression_test_categories=>[:index,
       :sort_case,:update_sort_case,:sort_category,:update_sort_category,
       :show_category,:new_category,:create_category,:edit_category,:update_category,:destroy_category,
       :new_case,:create_case,:edit_case,:update_case,:destroy_case]}

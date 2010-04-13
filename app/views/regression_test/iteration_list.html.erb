@@ -1,5 +1,5 @@
 <% html_title l(:regression_test) %>
-<h1>Iteration List</h1>
+<h1><%= breadcrumbs_link %></h1>
 <% if @iterations.empty?-%>
   Not Registered.
 <% else -%>
@@ -12,7 +12,7 @@
     <% @iterations.each do |iteration| -%>
       <tr>
         <td>
-          <%= link_to iteration.name,:action=>"show_iteration",:id=>iteration %>
+          <%= link_to iteration.name,:action=>"category_list",:iteration_id=>iteration %>
         </td>
         <td>
           <%= format_date(iteration.created_at)%>
@@ -32,5 +32,4 @@
 <% end -%>
 <hr />
 <%= link_to "New Iteration",:action=>"new_iteration"%> | 
-<%= link_to "Categories",:action=>"category_list"%> | 
 <%= link_to "Sort",:action=>"sort_iteration"%>

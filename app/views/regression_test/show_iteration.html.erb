@@ -1,0 +1,12 @@
+<h1><%=h @iteration.name %></h1>
+<table>
+  <th>Category Name</th>
+<% @project.regression_test_categories.each do|category| -%>
+  <tr>
+  <td>
+  <%= link_to category.name %>
+  </td>
+  </tr>
+<% end -%>
+</table>
+

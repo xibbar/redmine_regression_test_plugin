@@ -1,3 +1,4 @@
+<h2>Test Case</h2>
 Step Description:<span class="required">*</span><br />
 <%= f.text_area :step_description,:size=>"50x5" %><br />
 Input Test Data:<br />
@@ -6,3 +7,8 @@ Pre-Condition:<br />
 <%= f.text_area :pre_condition,:size=>"50x5" %><br />
 Expected Result:<br />
 <%= f.text_area :expected_result,:size=>"50x5" %><br />
+<h2>Result Status</h2>
+Status:
+<%= select :status,:result,["OK","NG"],:include_blank=>'--'%><br />
+Remark:<br />
+<%= text_area :status,:remark,:size=>"50x5" %><br />

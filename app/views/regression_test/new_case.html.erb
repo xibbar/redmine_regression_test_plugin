@@ -3,3 +3,5 @@
   <%= render :partial=>"case_form",:locals=>{:f=>f}%> 
   <%= submit_tag "Create" %>
 <% end -%>
+<hr />
+<%= render :partial=>"test_cases",:locals=>{:test_cases=>@category.regression_test_cases}%>

@@ -1,11 +1,12 @@
 class RegressionTestController < ApplicationController
   unloadable
   before_filter :find_project,:authorize
+  before_filter :find_iteration,:except=>[:index,:iteration_list]
   before_filter :find_category,:only=>[:new_case,:create_case,:edit_case,:update_case,:destroy_case]
 
   def index
-    category_list
-    render :action=>"category_list"
+    iteration_list
+    render :action=>"iteration_list"
   end
 
   # Iteration
@@ -61,13 +62,16 @@ class RegressionTestController < ApplicationController
     render :update do |page|
       page.visual_effect(:highlight,"sortable_list")
     end
-    
+  end
+  def show_iteration
+    @iteration=RegressionTestIteration.find(params[:id])
   end
 
   # Test Category
   def category_list
 #    @categories=RegressionTestCategory.all(:conditions=>["project_id=?",@project.id],:order=>"position")
     @categories=@project.regression_test_categories
+    @breadcrumbs.push({:name=>@iteration.name,:url=>{:action=>"category_list"}})
   end
   def new_category
     @category=RegressionTestCategory.new
@@ -109,6 +113,8 @@ class RegressionTestController < ApplicationController
   end
   def show_category
     @category=RegressionTestCategory.find(params[:id])
+    @breadcrumbs.push({:name=>@iteration.name,:url=>{:action=>"category_list"}})
+    @breadcrumbs.push({:name=>@category.name,:url=>{:action=>"show_category",:id=>@category}})
   end
   def sort_category
     @categories=RegressionTestCategory.all(:conditions=>["project_id=?",@project.id],:order=>"position")
@@ -139,28 +145,72 @@ class RegressionTestController < ApplicationController
   end
   def new_case
     @test_case=RegressionTestCase.new
+    @status=@test_case.status(@iteration)
+    unless @status
+      @status=RegressionTestStatus.new
+    end
   end
   def create_case
     @test_case=RegressionTestCase.new(params[:regression_test_case])
     @test_case.user_id=session[:user_id]
     @test_case.regression_test_category=@category
-    if @test_case.save
-      flash[:notice]="Created."
-      redirect_to :action=>"show_category",:id=>@category
-    else
+    @status=@test_case.status(@iteration)
+    unless @status
+      @status=RegressionTestStatus.new
+    end
+    begin
+      RegressionTestCase.transaction do
+        RegressionTestStatus.transaction do
+          @test_case.save!
+          if params[:status] && !params[:status][:result].blank?
+            @status.attributes=params[:status]
+            @status.regression_test_case=@test_case
+            @status.regression_test_iteration=@iteration
+            @status.user_id=session[:user_id]
+            @status.save!
+          end
+          flash[:notice]="Created."
+          redirect_to :action=>"show_category",:id=>@category
+        end
+      end
+    rescue =>ex
+      flash[:notice]=ex.message
       render :action=>"new_case"
     end
   end
   def edit_case
     @test_case=RegressionTestCase.find(params[:id])
+    @status=@test_case.status(@iteration)
+    unless @status
+      @status=RegressionTestStatus.new
+    end
   end
   def update_case
     @test_case=RegressionTestCase.find(params[:id])
     @test_case.user_id=session[:user_id]
-    if @test_case.update_attributes(params[:regression_test_case])
-      flash[:notice]="Updated."
-      redirect_to :action=>"show_category",:id=>@category
-    else
+    @status=@test_case.status(@iteration)
+    unless @status
+      @status=RegressionTestStatus.new
+    end
+    begin
+      RegressionTestCase.transaction do
+        RegressionTestStatus.transaction do
+          @test_case.update_attributes!(params[:regression_test_case])
+          if params[:status] && !params[:status][:result].blank?
+            @status.attributes=params[:status]
+            @status.regression_test_case=@test_case
+            @status.regression_test_iteration=@iteration
+            @status.user_id=session[:user_id]
+            @status.save!
+          else
+            RegressionTestStatus.destroy_all(["regression_test_iteration_id=? AND regression_test_case_id=?",@iteration,@test_case])
+          end
+          flash[:notice]="Updated."
+          redirect_to :action=>"show_category",:id=>@category
+        end
+      end
+    rescue =>ex
+      flash[:notice]=ex.message
       render :action=>"edit_case"
     end
   end
@@ -177,7 +227,11 @@ class RegressionTestController < ApplicationController
 
   private
   def find_project
+    @breadcrumbs=[{:name=>"Iteration List",:url=>{:action=>"iteration_list"}}]
     @project=Project.first(:conditions=>["identifier=?",params[:project]])
+  end
+  def find_iteration
+    @iteration=RegressionTestIteration.find(params[:iteration_id])
   end
   def find_category
     @category=RegressionTestCategory.find(params[:category_id])
@@ -187,6 +241,9 @@ class RegressionTestController < ApplicationController
     result={}
     if params[:project]
       result[:project] = params[:project]
+    end
+    if params[:iteration_id]
+      result[:iteration_id] = params[:iteration_id]
     end
     return result
 

@@ -1,0 +1,57 @@
+<table class="list issues">
+  <tr>
+    <th>No. </th>
+    <th>Step Description</th>
+    <th>Input Test Data</th>
+    <th>Pre-Condition</th>
+    <th>Expected Result</th>
+    <th>Status</th>
+    <th>Remarks</th>
+  </tr>
+  <% test_cases.each_with_index do |test_case,n| -%>
+    <% status=test_case.status(@iteration) -%>
+    <tr class="<%= n%2==1 ? 'odd' : 'even'%>">
+      <td>
+        <%=h test_case.position %>
+        <% if test_case.user-%> 
+          [<%= test_case.user.name %>]
+        <% else -%>
+          [User Removed.]
+        <% end -%><br />
+        <%= link_to(l(:button_edit), {:action => 'edit_case', :id => test_case, :category_id=>@category}, :class => 'icon icon-edit') %><br />
+        <%= link_to l(:button_delete), {:action => 'destroy_case', :id => test_case, :category_id=>@category}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+      </td>
+      <td>
+        <%=textilizable test_case.step_description %>
+      </td>
+      <td>
+        <%=textilizable test_case.input_test_data %>
+      </td>
+      <td>
+        <%=textilizable test_case.pre_condition %>
+      </td>
+      <td>
+        <%=textilizable test_case.expected_result %>
+      </td>
+      <td>
+        <% if status -%>
+          <% if status.result=="OK" -%>
+            <span style="color:green;font-weight:bolder"><%=h status.result %></span>
+          <% elsif status.result=="NG" -%>
+            <span style="color:red;font-weight:bolder"><%=h status.result %></span>
+          <% else -%>
+            <span style="color:green;font-weight:bolder"><%=h status.result %></span>
+          <% end -%>
+        <% else -%>
+          -
+        <% end -%>
+      </td>
+      <td>
+        <%= status ? textilizable(status.remark) : "-"  %>
+      </td>
+
+
+    </tr>
+  <% end -%>
+</table>
+

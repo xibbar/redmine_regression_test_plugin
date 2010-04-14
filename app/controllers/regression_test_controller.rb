@@ -1,7 +1,7 @@
 class RegressionTestController < ApplicationController
   unloadable
   before_filter :find_project,:authorize
-  before_filter :find_iteration,:except=>[:index,:iteration_list]
+  before_filter :find_iteration,:except=>[:index,:iteration_list,:new_iteration,:create_iteration,:edit_iteration,:update_iteration,:destroy_iteration]
   before_filter :find_category,:only=>[:new_case,:create_case,:edit_case,:update_case,:destroy_case]
 
   def index

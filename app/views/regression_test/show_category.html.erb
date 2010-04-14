@@ -1,6 +1,5 @@
 <% html_title l(:regression_test) %>
-<h1><%= breadcrumbs_link %></h1>
-</h1>
+<div style="font-size:11pt;font-weight:bolder"><%= breadcrumbs_link %></div>
 <%=(h @category.comment).gsub(/\r\n|\r|\n/){"<br />"} %>
 <hr />
 <%= render :partial=>"test_cases",:locals=>{:test_cases=>@category.regression_test_cases}%>

@@ -81,7 +81,7 @@ class RegressionTestController < ApplicationController
     @category.project=@project
     if @category.save
       flash[:notice]="Created."
-      redirect_to :action=>"index"
+      redirect_to :action=>"category_list"
     else
       render :action=>"new_category"
     end
@@ -93,7 +93,7 @@ class RegressionTestController < ApplicationController
     @category=RegressionTestCategory.find(params[:id])
     if @category.update_attributes(params[:regression_test_category])
       flash[:notice]="Updated."
-      redirect_to :action=>"index"
+      redirect_to :action=>"category_list"
     else
       render :action=>"edit_category"
     end
@@ -105,10 +105,10 @@ class RegressionTestController < ApplicationController
         category.update_attribute(:position,n+1)
       end
       flash[:notice]="Destroy Successful."
-      redirect_to :action=>"index"
+      redirect_to :action=>"category_list"
     else
       flash[:notice]="Destroy Failed."
-      redirect_to :action=>"index"
+      redirect_to :action=>"category_list"
     end
   end
   def show_category

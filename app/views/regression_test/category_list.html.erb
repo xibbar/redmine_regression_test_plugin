@@ -1,5 +1,5 @@
 <% html_title l(:regression_test) %>
-<h1><%= breadcrumbs_link %></h1>
+<div style="font-size:11pt;font-weight:bolder"><%= breadcrumbs_link %></div>
 <% if @categories.empty?-%>
   Not Registered.
 <% else -%>
@@ -28,5 +28,4 @@
 <% end -%>
 <hr />
 <%= link_to "New Category",:action=>"new_category"%> | 
-<%= link_to "Iterations",:action=>"iteration_list"%> | 
 <%= link_to "Sort",:action=>"sort_category"%>

@@ -1,5 +1,14 @@
 <% html_title l(:regression_test) %>
 <div style="font-size:11pt;font-weight:bolder"><%= breadcrumbs_link %></div>
+<% if @category.pre_condition && !@category.pre_condition.blank? -%>
+  <h3>Pre-condition</h3>
+  <div><%=textilizable @category.pre_condition %></div>
+<% end -%>
+<% if @category.comment && !@category.comment.blank? -%>
+  <h3>Comment</h3>
+  <div><%=textilizable @category.comment %></div>
+<% end -%>
+<div><%=textilizable @category.comment %></div>
 <%=(h @category.comment).gsub(/\r\n|\r|\n/){"<br />"} %>
 <hr />
 <%= render :partial=>"test_cases",:locals=>{:test_cases=>@category.regression_test_cases}%>
